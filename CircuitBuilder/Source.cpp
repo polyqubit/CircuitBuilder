@@ -21,6 +21,8 @@ float movCam = 0;
 float cameraSpeed = 0;
 bool camMode = false, firstMouse = true;
 
+float refred = 0.0;
+
 float lastX = 400, lastY = 300;
 
 GLuint BufferIds[10] = { 0 };
@@ -33,6 +35,7 @@ void Initialize(void);
 //void InitWindow(int, char* []);
 void ResizeFunction(GLFWwindow*, int, int);
 void RenderFunction(GLFWwindow*);
+void MouseButtonFunction(GLFWwindow*, int, int, int);
 
 int main(int argc, char* argv[])
 {
@@ -72,6 +75,7 @@ void Initialize()
 	}
 	glViewport(0, 0, 800, 600);
 	glfwSetFramebufferSizeCallback(window, ResizeFunction);
+	glfwSetMouseButtonCallback(window, MouseButtonFunction);
 
 	std::cout << "INFO: OpenGL Version: " << glGetString(GL_VERSION) << "\n";
 
@@ -93,9 +97,17 @@ void ResizeFunction(GLFWwindow* window, int width, int height)
 void RenderFunction(GLFWwindow* window)
 {
 	//glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(refred, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//DrawObj();
 	glfwSwapBuffers(window);
+}
 
+void MouseButtonFunction(GLFWwindow* window, int button, int action, int mods) {
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+		refred = 1.0f;
+	}
+	else {
+		refred = 0.0f;
+	}
 }
