@@ -150,6 +150,14 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="Spawner.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GeneralFragmentShader.glsl" />
+    <None Include="GeneralVertexShader.glsl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -10,9 +10,12 @@
 #include <math.h>
 #include <time.h>
 #include <vector>
+#include "Shader.h"
 #define WINDOW_TITLE "OpenGL Window"
 
 GLFWwindow* window;
+
+Shader ourShader("GeneralVertexShader.glsl", "GeneralFragmentShader.glsl");
 
 unsigned frameCount = 0;
 
@@ -36,6 +39,7 @@ void Initialize(void);
 void ResizeFunction(GLFWwindow*, int, int);
 void RenderFunction(GLFWwindow*);
 void MouseButtonFunction(GLFWwindow*, int, int, int);
+void DrawFunction(GLFWwindow*);
 
 int main(int argc, char* argv[])
 {
@@ -105,9 +109,12 @@ void RenderFunction(GLFWwindow* window)
 
 void MouseButtonFunction(GLFWwindow* window, int button, int action, int mods) {
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
-		refred = 1.0f;
+		// action
+	}
+	if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) {
+		// action
 	}
 	else {
-		refred = 0.0f;
+		// if you want to reset your state
 	}
 }
