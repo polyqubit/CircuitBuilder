@@ -5,7 +5,7 @@ namespace CircApp
 {
     void Render(bool* close)
     {
-        if (!ImGui::Begin("hi", close, 0)) {
+        if (!ImGui::Begin("hi", close)) {
             close = false;
             ImGui::End();
             return;
