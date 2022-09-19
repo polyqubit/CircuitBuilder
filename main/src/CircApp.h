@@ -2,5 +2,5 @@
 
 namespace CircApp
 {
-    void Render();
+    void Render(bool* close);
 }

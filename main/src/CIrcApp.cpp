@@ -3,9 +3,13 @@
 
 namespace CircApp
 {
-    void Render()
+    void Render(bool* close)
     {
-        ImGui::Begin("hi");
+        if (!ImGui::Begin("hi", close, 0)) {
+            close = false;
+            ImGui::End();
+            return;
+        }
         ImGui::Button("whats good");
         ImGui::End();
     }

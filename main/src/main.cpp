@@ -106,6 +106,7 @@ int main(int, char**)
     //IM_ASSERT(font != NULL);
 
     // Our state
+    bool close = true;
     bool show_demo_window = true;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
@@ -126,11 +127,11 @@ int main(int, char**)
         ImGui::NewFrame();
 
         // My code
-        CircApp::Render();
+        CircApp::Render(&close);
 
         // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-        /*if (show_demo_window)
-            ImGui::ShowDemoWindow(&show_demo_window);*/
+        if (show_demo_window)
+            ImGui::ShowDemoWindow(&show_demo_window);
 
         // 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
         //{
