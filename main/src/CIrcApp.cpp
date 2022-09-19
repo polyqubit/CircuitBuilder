@@ -5,12 +5,16 @@ namespace CircApp
 {
     void Render(bool* close)
     {
-        if (!ImGui::Begin("hi", close)) {
+        if (!ImGui::Begin("hi", close))
+        {
             close = false;
             ImGui::End();
             return;
         }
-        ImGui::Button("whats good");
+        if (ImGui::Button("whats good"))
+        {
+            ImGui::Button("abc");
+        }
         ImGui::End();
     }
 }
