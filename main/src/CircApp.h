@@ -2,5 +2,10 @@
 
 namespace CircApp
 {
-    void Render(bool* close);
+    class App{
+    public:
+        void Render(bool* close);
+    private:
+        bool toggle_b1 = false;
+    };
 }
