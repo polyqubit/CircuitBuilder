@@ -11,14 +11,15 @@ namespace CircApp
             ImGui::End();
             return;
         }
+
         if (ImGui::Button("whats good", ImVec2(100, 100)))
-        {
             toggle_b1 = !toggle_b1;
-        }
+
         if (toggle_b1)
-        {
-            ImGui::Button("abc");
-        }
+            if(ImGui::Button("abc"))
+            {
+                close = false;
+            }
         ImGui::End();
     }
 }
