@@ -52,9 +52,7 @@ namespace CircApp
         * #7890cd
         */
         ImGuiStyle& style = ImGui::GetStyle();
-        style.Colors[ImGuiCol_WindowBg] =           ImColor(0x1b,0x21,0x2c);
-        style.Colors[ImGuiCol_TitleBg] =            ImColor(0xff, 0xff, 0xff);
-        style.Colors[ImGuiCol_TitleBgActive] =      ImColor(0xff, 0xff, 0xff);
-        style.Colors[ImGuiCol_TitleBgCollapsed] =   ImColor(0xff, 0xff, 0xff);
+        style.Colors[ImGuiCol_WindowBg] =               ImColor(0x0b, 0x11, 0x1c); //-16
+        style.Colors[ImGuiCol_Tab] =                    ImColor(0x01, 0x45, 0xac);
     }
 }
