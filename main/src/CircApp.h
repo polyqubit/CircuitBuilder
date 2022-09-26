@@ -9,10 +9,10 @@ namespace CircApp
     private:
         ImGuiWindowFlags window_flags = 0;
         bool toggle_b1 = false;
-        void Style();
+        void Style(int);
         void RenderGates(ImGuiWindowFlags);
         void RenderIO(ImGuiWindowFlags);
         void RenderIC(ImGuiWindowFlags);
-        void RenderTestWindow(ImGuiWindowFlags);
+        void RenderSimWindow(ImGuiWindowFlags);
     };
 }

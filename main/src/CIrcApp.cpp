@@ -7,11 +7,11 @@ namespace CircApp
         //window_flags |= ImGuiWindowFlags_NoMove;
         window_flags |= ImGuiWindowFlags_NoCollapse;
 
-        Style();
+        Style(0);
         RenderGates(window_flags);
         RenderIO(window_flags);
         RenderIC(window_flags);
-        RenderTestWindow(window_flags);
+        RenderSimWindow(window_flags);
     }
     void App::RenderGates(ImGuiWindowFlags flags)
     {
@@ -28,13 +28,13 @@ namespace CircApp
         ImGui::Begin("IC", nullptr, flags);
         ImGui::End();
     }
-    void App::RenderTestWindow(ImGuiWindowFlags flags)
+    void App::RenderSimWindow(ImGuiWindowFlags flags)
     {
         ImGui::Begin("testwindow", nullptr, flags);
         ImGui::Button("dummy button");
         ImGui::End();
     }
-    void App::Style()
+    void App::Style(int sty)
     {
         /* main
         * #1b212c
@@ -53,6 +53,7 @@ namespace CircApp
         */
         ImGuiStyle& style = ImGui::GetStyle();
         style.Colors[ImGuiCol_WindowBg] =               ImColor(0x0b, 0x11, 0x1c); //-16
-        style.Colors[ImGuiCol_Tab] =                    ImColor(0x01, 0x45, 0xac);
+        style.Colors[ImGuiCol_TabActive] =              ImColor(0xfe, 0xde, 0x2a); //+16
+        style.Colors[ImGuiCol_Tab] =                    ImColor(0xce, 0xae, 0x00); //-32
     }
 }
