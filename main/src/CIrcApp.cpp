@@ -1,29 +1,29 @@
 #include "CircApp.h"
-#include "imgui.h"
 
 namespace CircApp
 {
     void App::Render(bool* close)
     {
-        if (!ImGui::Begin("Testing ImGui", close, ImGuiWindowFlags_NoCollapse))
-        {
-            close = false;
-            ImGui::End();
-            return;
-        }
+        window_flags |= ImGuiWindowFlags_NoMove;
+        window_flags |= ImGuiWindowFlags_NoCollapse;
 
-        if (ImGui::Button("whats good", ImVec2(100, 200)))
-            toggle_b1 = !toggle_b1;
-
-        if (toggle_b1)
-        {
-            if (ImGui::Button("abc", ImVec2(200, 100)))
-            {
-                close = false;
-                ImGui::End();
-                return;
-            }
-        }
+        RenderGates(window_flags);
+        RenderIO(window_flags);
+        RenderIC(window_flags);
+    }
+    void App::RenderGates(ImGuiWindowFlags flags)
+    {
+        ImGui::Begin("Gates", nullptr, flags);
+        ImGui::End();
+    }
+    void App::RenderIO(ImGuiWindowFlags flags)
+    {
+        ImGui::Begin("IO", nullptr, flags);
+        ImGui::End();
+    }
+    void App::RenderIC(ImGuiWindowFlags flags)
+    {
+        ImGui::Begin("IC", nullptr, flags);
         ImGui::End();
     }
 }
