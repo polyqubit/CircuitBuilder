@@ -4,7 +4,7 @@ namespace CircApp
 {
     void App::Render(bool* close)
     {
-        //window_flags |= ImGuiWindowFlags_NoMove;
+        window_flags |= ImGuiWindowFlags_NoMove;
         window_flags |= ImGuiWindowFlags_NoCollapse;
 
         Style(0);
@@ -31,7 +31,10 @@ namespace CircApp
     void App::RenderSimWindow(ImGuiWindowFlags flags)
     {
         ImGui::Begin("testwindow", nullptr, flags);
-        ImGui::Button("dummy button");
+        ImGui::BeginChild("GameRender");
+        ImVec2 wsize = ImGui::GetWindowSize();
+        //ImGui::Image((ImTextureID)tex, wsize, ImVec2(0, 1), ImVec2(1, 0)); tex is a GLuint
+        ImGui::EndChild();
         ImGui::End();
     }
     void App::Style(int sty)
@@ -52,8 +55,6 @@ namespace CircApp
         * #7890cd
         */
         ImGuiStyle& style = ImGui::GetStyle();
-        style.Colors[ImGuiCol_WindowBg] =               ImColor(0x0b, 0x11, 0x1c); //-16
-        style.Colors[ImGuiCol_TabActive] =              ImColor(0xfe, 0xde, 0x2a); //+16
-        style.Colors[ImGuiCol_Tab] =                    ImColor(0xce, 0xae, 0x00); //-32
+        style.Colors[ImGuiCol_WindowBg] =               ImColor(0x0b, 0x11, 0x1c);
     }
 }
