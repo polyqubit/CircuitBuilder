@@ -37,6 +37,9 @@
     <ClCompile Include="CircApp.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\imconfig.h">
@@ -58,6 +61,12 @@
       <Filter>sources</Filter>
     </ClInclude>
     <ClInclude Include="CircApp.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
       <Filter>sources</Filter>
     </ClInclude>
   </ItemGroup>
