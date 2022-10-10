@@ -3,6 +3,7 @@
 // If you are new to Dear ImGui, read documentation from the docs/ folder + read the top of imgui.cpp.
 // Read online: https://github.com/ocornut/imgui/tree/master/docs
 
+#include <glew/glew.h>
 #include "imgui.h"
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
@@ -13,6 +14,7 @@
 #include <GLFW/glfw3.h> // Will drag system OpenGL headers
 
 #include "CircApp.h"
+#include "Shader.h"
 
 // [Win32] Our example includes a copy of glfw3.lib pre-compiled with VS2010 to maximize ease of testing and compatibility with old VS compilers.
 // To link with VS2010-era libraries, VS2015+ requires linking with legacy_stdio_definitions.lib, which we do using this pragma.
@@ -20,6 +22,12 @@
 #if defined(_MSC_VER) && (_MSC_VER >= 1900) && !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
 #pragma comment(lib, "legacy_stdio_definitions")
 #endif
+
+GLuint BufferIds[10] = { 0 };
+
+GLuint VBOIds[10] = { 0 };
+GLuint VAOIds[10] = { 0 };
+GLuint texIds[10] = { 0 };
 
 static void glfw_error_callback(int error, const char* description)
 {
@@ -32,6 +40,14 @@ int main(int, char**)
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
         return 1;
+
+    glewExperimental = GL_TRUE;
+    GLenum GlewInitResult = glewInit();
+
+    if (GLEW_OK != GlewInitResult) {
+        std::cout << "Failed to initialize glew " << glewGetErrorString(GlewInitResult) << "\n";
+        exit(EXIT_FAILURE);
+    }
 
     // Decide GL+GLSL versions
 #if defined(IMGUI_IMPL_OPENGL_ES2)
@@ -62,7 +78,8 @@ int main(int, char**)
     if (window == NULL)
         return 1;
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(1); // Enable vsync
+    glfwSwapInterval(0); // Enable vsync
+
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -74,6 +91,8 @@ int main(int, char**)
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
     //io.ConfigViewportsNoAutoMerge = true;
     //io.ConfigViewportsNoTaskBarIcon = true;
+
+    Shader shaders("vshader.glsl", "fshader.glsl");
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
