@@ -69,26 +69,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
-    <IncludePath>C:\Users\main\Desktop\CircuitBuilder\main\Dependencies;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glew\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glad\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\freeglut\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glfw\include;C:\Users\main\Desktop\CircuitBuilder\CircuitBuilder\example_glfw_opengl3\imgui;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\libOpenGL\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\main\Desktop\CircuitBuilder\main\Dependencies;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glew\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glad\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\freeglut\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glfw\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glfw\lib-vc2022;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glew\lib\Release\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
-    <IncludePath>C:\Users\main\Desktop\CircuitBuilder\main\Dependencies;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glew\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glad\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\freeglut\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glfw\include;C:\Users\main\Desktop\CircuitBuilder\CircuitBuilder\example_glfw_opengl3\imgui;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\libOpenGL\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\main\Desktop\CircuitBuilder\main\Dependencies;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glew\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glad\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\freeglut\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glfw\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glfw\lib-vc2022;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glew\lib\Release\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
-    <IncludePath>C:\Users\main\Desktop\CircuitBuilder\main\Dependencies;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glew\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glad\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\freeglut\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glfw\include;C:\Users\main\Desktop\CircuitBuilder\CircuitBuilder\example_glfw_opengl3\imgui;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\libOpenGL\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\main\Desktop\CircuitBuilder\main\Dependencies;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glew\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glad\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\freeglut\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glfw\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glfw\lib-vc2022;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glew\lib\Release\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
-    <IncludePath>C:\Users\main\Desktop\CircuitBuilder\main\Dependencies;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glew\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glad\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\freeglut\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glfw\include;C:\Users\main\Desktop\CircuitBuilder\CircuitBuilder\example_glfw_opengl3\imgui;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\libOpenGL\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\main\Desktop\CircuitBuilder\main\Dependencies;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glew\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glad\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\freeglut\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glfw\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glfw\lib-vc2022;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glew\lib\Release\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
