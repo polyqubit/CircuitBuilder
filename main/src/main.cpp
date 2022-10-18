@@ -1,3 +1,5 @@
+// include glew32.dll in System32
+
 // Dear ImGui: standalone example application for GLFW + OpenGL 3, using programmable pipeline
 // (GLFW is a cross-platform general purpose library for handling windows, inputs, OpenGL/Vulkan/Metal graphics context creation, etc.)
 // If you are new to Dear ImGui, read documentation from the docs/ folder + read the top of imgui.cpp.
@@ -33,23 +35,10 @@ static void glfw_error_callback(int error, const char* description)
 
 int main(int, char**)
 {
-    // Setup window
+    // Setup window !!GLFW FIRST!!
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
         return 1;
-
-    glewExperimental = GL_TRUE;
-    GLenum GlewInitResult = glewInit();
-
-    if (GLEW_OK != GlewInitResult) {
-        std::cout << "Failed to initialize glew " << glewGetErrorString(GlewInitResult) << "\n";
-        exit(EXIT_FAILURE);
-    }
-
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        return 1;
-    }
 
     const char* glsl_version = "#version 400";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -57,13 +46,26 @@ int main(int, char**)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            
 
-    // Create window with graphics context
     GLFWwindow* window = glfwCreateWindow(1280, 720, "Dear ImGui GLFW+OpenGL3 example", NULL, NULL);
     if (window == NULL)
         return 1;
     glfwMakeContextCurrent(window);
     glfwSwapInterval(0); // Enable vsync
 
+    // After finishing GLFW, set up GLAD
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+        std::cout << "Failed to initialize GLAD" << std::endl;
+        return 1;
+    }
+
+    // Then glew
+    glewExperimental = GL_TRUE;
+    GLenum GlewInitResult = glewInit();
+
+    if (GLEW_OK != GlewInitResult) {
+        std::cout << "Failed to initialize glew " << glewGetErrorString(GlewInitResult) << "\n";
+        exit(EXIT_FAILURE);
+    }
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -127,6 +129,9 @@ int main(int, char**)
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+
+    GLuint fbo;
+    glGenFramebuffers(1, &fbo);
 
     // Our state
     bool show_main_window = true;
@@ -195,10 +200,6 @@ int main(int, char**)
         //        show_another_window = false;
         //    ImGui::End();
         //}
-
-        shaders.use();
-        glBindVertexArray(VAOIds[0]);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
         
         // Rendering
         ImGui::Render();
@@ -209,6 +210,15 @@ int main(int, char**)
         glClearColor(0,0,0,0);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+        shaders.use();
+        shaders.setVec4("uColor", glm::vec4(1.0f,1.0f,0.0f,1.0f));
+        glBindVertexArray(VAOIds[0]);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+
+        glDeleteFramebuffers(1, &fbo);
     	
         // Update and Render additional Platform Windows
         // (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.
