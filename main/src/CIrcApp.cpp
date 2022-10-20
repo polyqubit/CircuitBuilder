@@ -4,7 +4,7 @@ namespace CircApp
 {
     void App::Render(bool* close)
     {
-        //window_flags |= ImGuiWindowFlags_NoMove;
+        window_flags |= ImGuiWindowFlags_NoMove;
         window_flags |= ImGuiWindowFlags_NoCollapse;
 
         Style(0);

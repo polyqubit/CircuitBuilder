@@ -26,6 +26,8 @@ GLuint BufferIds[10] = { 0 };
 
 GLuint VBOIds[10] = { 0 };
 GLuint VAOIds[10] = { 0 };
+GLuint FBOIds[10] = { 0 };
+GLuint RBOIds[10] = { 0 };
 GLuint texIds[10] = { 0 };
 
 static void glfw_error_callback(int error, const char* description)
@@ -130,8 +132,25 @@ int main(int, char**)
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    GLuint fbo;
-    glGenFramebuffers(1, &fbo);
+    glGenFramebuffers(1, &FBOIds[0]);
+    glBindFramebuffer(GL_FRAMEBUFFER, FBOIds[0]);
+
+    GLuint texBuffer;
+    glGenTextures(1, &texBuffer);
+    glBindTexture(GL_TEXTURE_2D, texBuffer);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1280, 720, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texBuffer, 0);
+
+    glGenRenderbuffers(1, &RBOIds[0]);
+    glBindRenderbuffer(GL_RENDERBUFFER, RBOIds[0]);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 1280, 720); // use a single renderbuffer object for both a depth AND stencil buffer.
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBOIds[0]); // now actually attach it
+
+    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+        std::cout << "ERROR: Framebuffer is not complete!\n";
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     // Our state
     bool show_main_window = true;
@@ -156,13 +175,6 @@ int main(int, char**)
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
         ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
-
-        // My code
-        if (show_main_window)
-        {
-            main_app.Render(&show_main_window);
-            //ImGui::DockSpace(1);
-        }
 
         // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
         if (show_demo_window)
@@ -200,7 +212,40 @@ int main(int, char**)
         //        show_another_window = false;
         //    ImGui::End();
         //}
+
+
+        glBindFramebuffer(GL_FRAMEBUFFER, FBOIds[0]);
+
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        shaders.use();
+        shaders.setVec4("uColor", glm::vec4(1.0f,1.0f,0.0f,1.0f));
+        glBindVertexArray(VAOIds[0]);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
         
+        // My code
+        if (show_main_window)
+        {
+            main_app.Render(&show_main_window);
+            //ImGui::DockSpace(1);
+        }
+
+        ImGui::Begin("GameWindow");
+        {
+            // Using a Child allow to fill all the space of the window.
+            // It also alows customization
+            ImGui::BeginChild("GameRender");
+            // Get the size of the child (i.e. the whole draw size of the windows).
+            ImVec2 wsize = ImGui::GetWindowSize();
+            // Because I use the texture from OpenGL, I need to invert the V from the UV.
+            ImGui::Image((ImTextureID)texBuffer, wsize, ImVec2(0, 1), ImVec2(1, 0));
+            ImGui::EndChild();
+        }
+        ImGui::End();
+
         // Rendering
         ImGui::Render();
         int display_w, display_h;
@@ -211,14 +256,6 @@ int main(int, char**)
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-        glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-
-        shaders.use();
-        shaders.setVec4("uColor", glm::vec4(1.0f,1.0f,0.0f,1.0f));
-        glBindVertexArray(VAOIds[0]);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-
-        glDeleteFramebuffers(1, &fbo);
     	
         // Update and Render additional Platform Windows
         // (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.
