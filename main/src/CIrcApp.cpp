@@ -2,7 +2,7 @@
 
 namespace CircApp
 {
-    void App::Render(bool* close)
+    void App::Render(bool* close, ImTextureID tex)
     {
         window_flags |= ImGuiWindowFlags_NoMove;
         window_flags |= ImGuiWindowFlags_NoCollapse;
@@ -11,7 +11,7 @@ namespace CircApp
         RenderGates(window_flags);
         RenderIO(window_flags);
         RenderIC(window_flags);
-        RenderSimWindow(window_flags);
+        RenderSimWindow(window_flags, tex);
     }
     void App::RenderGates(ImGuiWindowFlags flags)
     {
@@ -28,14 +28,16 @@ namespace CircApp
         ImGui::Begin("IC", nullptr, flags);
         ImGui::End();
     }
-    void App::RenderSimWindow(ImGuiWindowFlags flags)
+    void App::RenderSimWindow(ImGuiWindowFlags flags, ImTextureID tex)
     {
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
         ImGui::Begin("testwindow", nullptr, flags);
         ImGui::BeginChild("GameRender");
-        ImVec2 wsize = ImGui::GetWindowSize();
-        //ImGui::Image((ImTextureID)tex, wsize, ImVec2(0, 1), ImVec2(1, 0)); tex is a GLuint
+        rendSize = ImGui::GetWindowSize();
+        ImGui::Image((ImTextureID)tex, rendSize, ImVec2(0, 1), ImVec2(1, 0));
         ImGui::EndChild();
         ImGui::End();
+        ImGui::PopStyleVar();
     }
     void App::Style(int sty)
     {
@@ -56,5 +58,9 @@ namespace CircApp
         */
         ImGuiStyle& style = ImGui::GetStyle();
         style.Colors[ImGuiCol_WindowBg] =               ImColor(0x0b, 0x11, 0x1c);
+    }
+    ImVec2 App::getRendSize() const
+    {
+        return rendSize;
     }
 }

@@ -215,6 +215,7 @@ int main(int, char**)
 
 
         glBindFramebuffer(GL_FRAMEBUFFER, FBOIds[0]);
+        //glViewport(0, 0, main_app.getRendSize().x, main_app.getRendSize().y);
 
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -229,22 +230,9 @@ int main(int, char**)
         // My code
         if (show_main_window)
         {
-            main_app.Render(&show_main_window);
+            main_app.Render(&show_main_window, (ImTextureID)texBuffer);
             //ImGui::DockSpace(1);
         }
-
-        ImGui::Begin("GameWindow");
-        {
-            // Using a Child allow to fill all the space of the window.
-            // It also alows customization
-            ImGui::BeginChild("GameRender");
-            // Get the size of the child (i.e. the whole draw size of the windows).
-            ImVec2 wsize = ImGui::GetWindowSize();
-            // Because I use the texture from OpenGL, I need to invert the V from the UV.
-            ImGui::Image((ImTextureID)texBuffer, wsize, ImVec2(0, 1), ImVec2(1, 0));
-            ImGui::EndChild();
-        }
-        ImGui::End();
 
         // Rendering
         ImGui::Render();
