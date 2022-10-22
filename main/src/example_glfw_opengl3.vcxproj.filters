@@ -28,19 +28,16 @@
     <ClCompile Include="..\..\imgui_widgets.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\backends\imgui_impl_glfw.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\backends\imgui_impl_opengl3.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
     <ClCompile Include="CircApp.cpp">
       <Filter>sources</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer.cpp">
+    <ClCompile Include="imgui_impl_glfw.cpp">
       <Filter>sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\libOpenGL\include\glad\glad.c">
+    <ClCompile Include="imgui_impl_opengl3.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\glad\src\glad.c">
       <Filter>sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -54,22 +51,19 @@
     <ClInclude Include="..\..\imgui_internal.h">
       <Filter>imgui</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\backends\imgui_impl_glfw.h">
-      <Filter>sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\backends\imgui_impl_opengl3.h">
-      <Filter>sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\backends\imgui_impl_opengl3_loader.h">
-      <Filter>sources</Filter>
-    </ClInclude>
     <ClInclude Include="CircApp.h">
       <Filter>sources</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer.h">
+    <ClInclude Include="Shader.h">
       <Filter>sources</Filter>
     </ClInclude>
-    <ClInclude Include="Shader.h">
+    <ClInclude Include="imgui_impl_glfw.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_opengl3.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_opengl3_loader.h">
       <Filter>sources</Filter>
     </ClInclude>
   </ItemGroup>

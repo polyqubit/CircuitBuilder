@@ -69,32 +69,33 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
-    <IncludePath>C:\Users\main\Desktop\CircuitBuilder\main\Dependencies;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glew\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glad\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\freeglut\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glfw\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glfw\lib-vc2022;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glew\lib\Release\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dependencies;$(SolutionDir)Dependencies\glad\include;$(SolutionDir)Dependencies\glew\include;$(SolutionDir)Dependencies\glfw\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies\glfw\lib-vc2022;$(SolutionDir)Dependencies\glew\lib\Release\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
-    <IncludePath>C:\Users\main\Desktop\CircuitBuilder\main\Dependencies;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glew\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glad\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\freeglut\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glfw\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glfw\lib-vc2022;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glew\lib\Release\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dependencies;$(SolutionDir)Dependencies\glad\include;$(SolutionDir)Dependencies\glew\include;$(SolutionDir)Dependencies\glfw\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies\glfw\lib-vc2022;$(SolutionDir)Dependencies\glew\lib\Release\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
-    <IncludePath>C:\Users\main\Desktop\CircuitBuilder\main\Dependencies;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glew\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glad\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\freeglut\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glfw\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glfw\lib-vc2022;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glew\lib\Release\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dependencies;$(SolutionDir)Dependencies\glad\include;$(SolutionDir)Dependencies\glew\include;$(SolutionDir)Dependencies\glfw\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies\glfw\lib-vc2022;$(SolutionDir)Dependencies\glew\lib\Release\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
-    <IncludePath>C:\Users\main\Desktop\CircuitBuilder\main\Dependencies;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glew\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glad\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\freeglut\include;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glfw\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glfw\lib-vc2022;C:\Users\main\Desktop\CircuitBuilder\main\Dependencies\glew\lib\Release\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dependencies;$(SolutionDir)Dependencies\glad\include;$(SolutionDir)Dependencies\glew\include;$(SolutionDir)Dependencies\glfw\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies\glfw\lib-vc2022;$(SolutionDir)Dependencies\glew\lib\Release\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level2</WarningLevel>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..;..\..\backends;..\libs\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -109,6 +110,7 @@
       <WarningLevel>Level2</WarningLevel>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..;..\..\backends;..\libs\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -126,6 +128,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>..\..;..\..\backends;..\libs\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BufferSecurityCheck>false</BufferSecurityCheck>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -146,6 +149,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>..\..;..\..\backends;..\libs\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BufferSecurityCheck>false</BufferSecurityCheck>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -159,27 +163,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\libOpenGL\include\glad\glad.c" />
     <ClCompile Include="..\..\imgui.cpp" />
     <ClCompile Include="..\..\imgui_demo.cpp" />
     <ClCompile Include="..\..\imgui_draw.cpp" />
     <ClCompile Include="..\..\imgui_tables.cpp" />
     <ClCompile Include="..\..\imgui_widgets.cpp" />
-    <ClCompile Include="..\..\backends\imgui_impl_glfw.cpp" />
-    <ClCompile Include="..\..\backends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="CircApp.cpp" />
+    <ClCompile Include="Dependencies\glad\src\glad.c" />
+    <ClCompile Include="imgui_impl_glfw.cpp" />
+    <ClCompile Include="imgui_impl_opengl3.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\imconfig.h" />
     <ClInclude Include="..\..\imgui.h" />
     <ClInclude Include="..\..\imgui_internal.h" />
-    <ClInclude Include="..\..\backends\imgui_impl_glfw.h" />
-    <ClInclude Include="..\..\backends\imgui_impl_opengl3.h" />
-    <ClInclude Include="..\..\backends\imgui_impl_opengl3_loader.h" />
     <ClInclude Include="CircApp.h" />
-    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="imgui_impl_glfw.h" />
+    <ClInclude Include="imgui_impl_opengl3.h" />
+    <ClInclude Include="imgui_impl_opengl3_loader.h" />
     <ClInclude Include="Shader.h" />
   </ItemGroup>
   <ItemGroup>
