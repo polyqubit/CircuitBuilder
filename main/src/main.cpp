@@ -59,7 +59,7 @@ int main(int, char**)
     if (window == NULL)
         return 1;
     glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    //glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSwapInterval(0); // Enable vsync
 
     // After finishing GLFW, set up GLAD
@@ -146,7 +146,7 @@ int main(int, char**)
     GLuint texBuffer;
     glGenTextures(1, &texBuffer);
     glBindTexture(GL_TEXTURE_2D, texBuffer);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1280, 720, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1000, 1000, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL); // potentially issue?
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texBuffer, 0);
@@ -223,7 +223,15 @@ int main(int, char**)
 
 
         glBindFramebuffer(GL_FRAMEBUFFER, FBOIds[0]);
-        //glViewport(0, 0, main_app.getRendSize().x, main_app.getRendSize().y);
+        int display_w, display_h;
+        glfwGetFramebufferSize(window, &display_w, &display_h);
+        glViewport(0, 0, display_w, display_h);
+        /*glViewport(
+        0,
+        0,
+        main_app.getRendSize().x,
+        main_app.getRendSize().y);*/
+        //std::cout << main_app.getRendPos().x << " " << main_app.getRendPos().y << std::endl;
 
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -244,7 +252,6 @@ int main(int, char**)
 
         // Rendering
         ImGui::Render();
-        int display_w, display_h;
         glfwGetFramebufferSize(window, &display_w, &display_h);
         glViewport(0, 0, display_w, display_h);
         //glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);

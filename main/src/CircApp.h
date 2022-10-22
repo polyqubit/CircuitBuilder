@@ -8,9 +8,11 @@ namespace CircApp
     public:
         void Render(bool*,ImTextureID);
         ImVec2 getRendSize() const;
+        ImVec2 getRendPos() const;
     private:
         ImGuiWindowFlags window_flags = 0;
         ImVec2 rendSize;
+        ImVec2 rendPos;
         std::vector<int> components;
         bool toggle_b1 = false;
 
