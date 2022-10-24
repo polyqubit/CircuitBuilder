@@ -130,6 +130,9 @@ int main(int, char**)
     io.Fonts->AddFontFromFileTTF("../../misc/fonts/CenturyGothic-Bold.ttf", 16.0f);
     //IM_ASSERT(font != NULL);
 
+
+    // FIX THIS
+
     float vertices[] = {
         // positions        // texture coords
          0.5f,  0.5f, 0.0f, 1.0f, 1.0f,   // top right
