@@ -134,11 +134,11 @@ int main(int, char**)
     // FIX THIS
 
     float vertices[] = {
-        // positions        // texture coords
-         0.5f,  0.5f, 0.0f, 1.0f, 1.0f,   // top right
-         0.5f, -0.5f, 0.0f, 1.0f, 0.0f,   // bottom right
-        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,   // bottom left
-        -0.5f,  0.5f, 0.0f, 0.0f, 1.0f    // top left 
+        // positions          // texture coords
+         0.5f,  0.5f, 0.0f,   1.0f, 1.0f,   // top right
+         0.5f, -0.5f, 0.0f,   1.0f, 0.0f,   // bottom right
+        -0.5f, -0.5f, 0.0f,   0.0f, 0.0f,   // bottom left
+        -0.5f,  0.5f, 0.0f,   0.0f, 1.0f    // top left 
     };
 
     glGenBuffers(3, &VBOIds[0]);
@@ -151,6 +151,8 @@ int main(int, char**)
     glBindBuffer(GL_ARRAY_BUFFER, VBOIds[0]);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(6 * sizeof(float)));
     glEnableVertexAttribArray(0);
 
     glGenFramebuffers(1, &FBOIds[0]);
@@ -236,15 +238,16 @@ int main(int, char**)
         main_app.getRendSize().y);*/
         //std::cout << main_app.getRendPos().x << " " << main_app.getRendPos().y << std::endl;
 
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glClearColor(0.82f, 0.82f, 0.82f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         float timeVal = glfwGetTime();
         float color = sin(timeVal);
         shaders.use();
         shaders.setVec4("uColor", glm::vec4(1.0f,color,color,1.0f));
+        glBindTexture(GL_TEXTURE_2D, TEXIds[0]);
         glBindVertexArray(VAOIds[0]);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         
