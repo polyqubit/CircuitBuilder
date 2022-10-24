@@ -36,6 +36,7 @@ namespace CircApp
         ImGui::Begin("testwindow", nullptr, flags);
         ImGui::BeginChild("GameRender");
         rendSize = ImGui::GetWindowSize();
+        rendPos = ImGui::GetWindowPos();
         ImGui::Image((ImTextureID)tex, rendSize, ImVec2(0, 1), ImVec2(1, 0));
         ImGui::EndChild();
         ImGui::End();
@@ -65,5 +66,9 @@ namespace CircApp
     ImVec2 App::getRendSize() const
     {
         return rendSize;
+    }
+    ImVec2 App::getRendPos() const
+    {
+        return rendPos;
     }
 }

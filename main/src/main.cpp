@@ -7,8 +7,8 @@
 
 #include <GL/glew.h>
 #include "imgui.h"
-#include "backends/imgui_impl_glfw.h"
-#include "backends/imgui_impl_opengl3.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
 #include <stdio.h>
 #include <GLFW/glfw3.h> // Will drag system OpenGL headers
 
@@ -67,7 +67,7 @@ int main(int, char**)
     if (window == NULL)
         return 1;
     glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    //glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSwapInterval(0); // Enable vsync
 
     // After finishing GLFW, set up GLAD
@@ -223,7 +223,15 @@ int main(int, char**)
 
         // Begin rendering to framebuffer
         glBindFramebuffer(GL_FRAMEBUFFER, FBOIds[0]);
-        //glViewport(0, 0, main_app.getRendSize().x, main_app.getRendSize().y);
+        int display_w, display_h;
+        glfwGetFramebufferSize(window, &display_w, &display_h);
+        glViewport(0, 0, display_w, display_h);
+        /*glViewport(
+        0,
+        0,
+        main_app.getRendSize().x,
+        main_app.getRendSize().y);*/
+        //std::cout << main_app.getRendPos().x << " " << main_app.getRendPos().y << std::endl;
 
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -246,7 +254,6 @@ int main(int, char**)
 
         // Rendering
         ImGui::Render();
-        int display_w, display_h;
         glfwGetFramebufferSize(window, &display_w, &display_h);
         glViewport(0, 0, display_w, display_h);
         //glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
