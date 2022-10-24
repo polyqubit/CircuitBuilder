@@ -32,6 +32,11 @@ GLuint FBOIds[10] = { 0 };
 GLuint RBOIds[10] = { 0 };
 GLuint TEXIds[10] = { 0 };
 
+static void glfw_error_callback(int, const char*);
+void framebuffer_size_callback(GLFWwindow*, int, int);
+void KeyboardFunction(GLFWwindow*);
+GLuint LoadTex(const char*);
+
 static void glfw_error_callback(int error, const char* description)
 {
     fprintf(stderr, "Glfw Error %d: %s\n", error, description);
@@ -48,6 +53,46 @@ void KeyboardFunction(GLFWwindow* window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+}
+
+GLuint LoadTex(const char* path)
+{
+    GLuint textureID;
+    glGenTextures(1, &textureID);
+
+    int width, height, nrComponents;
+    unsigned char* data = stbi_load(path, &width, &height, &nrComponents, 0);
+
+    //std::cout << width << " " << height << " " << nrComponents << std::endl;
+    //std::cout << data << std::endl;
+    if (data)
+    {
+        GLenum format = GL_RGBA;
+        if (nrComponents == 1)
+            format = GL_RED;
+        else if (nrComponents == 3)
+            format = GL_RGB;
+        else if (nrComponents == 4)
+            format = GL_RGBA;
+
+        glBindTexture(GL_TEXTURE_2D, textureID);
+        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        stbi_image_free(data);
+    }
+    else
+    {
+        std::cout << "Texture failed to load at path: " << path << std::endl;
+        stbi_image_free(data);
+    }
+
+    return textureID;
 }
 
 int main(int, char**)
@@ -97,7 +142,7 @@ int main(int, char**)
     //io.ConfigViewportsNoTaskBarIcon = true;
 
     Shader shaders("vshader.glsl", "fshader.glsl");
-    //shders.set...(...);
+    //shaders.set...(...);
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
@@ -153,7 +198,7 @@ int main(int, char**)
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(6 * sizeof(float)));
-    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
 
     glGenFramebuffers(1, &FBOIds[0]);
     glBindFramebuffer(GL_FRAMEBUFFER, FBOIds[0]);
@@ -176,26 +221,9 @@ int main(int, char**)
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     // Load gates
-
-    glGenTextures(1, &TEXIds[0]);
-    glBindTexture(GL_TEXTURE_2D, TEXIds[0]);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    int IMwidth, IMheight, IMnrChannels;
-    unsigned char* data = stbi_load("Resources/andgate.png", &IMwidth, &IMheight, &IMnrChannels, 0);
-    if (data)
-    {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, IMwidth, IMheight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {
-        std::cout << "Failed to load tex" << std::endl;
-    }
-    stbi_image_free(data);
+    
+    glActiveTexture(GL_TEXTURE0);
+    TEXIds[0] = LoadTex("Resources/andgate.png");
 
     // Our state
     bool show_main_window = true;
@@ -291,44 +319,4 @@ int main(int, char**)
     glfwTerminate();
 
     return 0;
-}
-
-GLuint LoadTex(char const* path)
-{
-    GLuint textureID;
-    glGenTextures(1, &textureID);
-
-    int width, height, nrComponents;
-    unsigned char* data = stbi_load(path, &width, &height, &nrComponents, 0);
-
-    //std::cout << width << " " << height << " " << nrComponents << std::endl;
-    //std::cout << data << std::endl;
-    if (data)
-    {
-        GLenum format = GL_RGBA;
-        if (nrComponents == 1)
-            format = GL_RED;
-        else if (nrComponents == 3)
-            format = GL_RGB;
-        else if (nrComponents == 4)
-            format = GL_RGBA;
-
-        glBindTexture(GL_TEXTURE_2D, textureID);
-        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-        stbi_image_free(data);
-    }
-    else
-    {
-        std::cout << "Texture failed to load at path: " << path << std::endl;
-        stbi_image_free(data);
-    }
-
-    return textureID;
 }
