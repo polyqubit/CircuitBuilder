@@ -12,8 +12,10 @@
 #include <stdio.h>
 #include <GLFW/glfw3.h> // Will drag system OpenGL headers
 
+#define STB_IMAGE_IMPLEMENTATION
 #include "CircApp.h"
 #include "Shader.h"
+#include "stb_image.h"
 
 // [Win32] Our example includes a copy of glfw3.lib pre-compiled with VS2010 to maximize ease of testing and compatibility with old VS compilers.
 // To link with VS2010-era libraries, VS2015+ requires linking with legacy_stdio_definitions.lib, which we do using this pragma.
@@ -28,7 +30,7 @@ GLuint VBOIds[10] = { 0 };
 GLuint VAOIds[10] = { 0 };
 GLuint FBOIds[10] = { 0 };
 GLuint RBOIds[10] = { 0 };
-GLuint texIds[10] = { 0 };
+GLuint TEXIds[10] = { 0 };
 
 static void glfw_error_callback(int error, const char* description)
 {
@@ -42,6 +44,12 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
+void KeyboardFunction(GLFWwindow* window)
+{
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+}
+
 int main(int, char**)
 {
     // Setup window !!GLFW FIRST!!
@@ -52,10 +60,10 @@ int main(int, char**)
     const char* glsl_version = "#version 400";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-    GLFWwindow* window = glfwCreateWindow(1280, 720, "Dear ImGui GLFW+OpenGL3 example", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(1920, 1080, "Dear ImGui GLFW+OpenGL3 example", glfwGetPrimaryMonitor(), NULL);
     if (window == NULL)
         return 1;
     glfwMakeContextCurrent(window);
@@ -123,9 +131,11 @@ int main(int, char**)
     //IM_ASSERT(font != NULL);
 
     float vertices[] = {
-    -0.5f, -0.5f, 0.0f,
-     0.5f, -0.5f, 0.0f,
-     0.0f,  0.5f, 0.0f
+        // positions        // texture coords
+         0.5f,  0.5f, 0.0f, 1.0f, 1.0f,   // top right
+         0.5f, -0.5f, 0.0f, 1.0f, 0.0f,   // bottom right
+        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,   // bottom left
+        -0.5f,  0.5f, 0.0f, 0.0f, 1.0f    // top left 
     };
 
     glGenBuffers(3, &VBOIds[0]);
@@ -146,19 +156,41 @@ int main(int, char**)
     GLuint texBuffer;
     glGenTextures(1, &texBuffer);
     glBindTexture(GL_TEXTURE_2D, texBuffer);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1280, 720, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1920, 1080, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texBuffer, 0);
 
     glGenRenderbuffers(1, &RBOIds[0]);
     glBindRenderbuffer(GL_RENDERBUFFER, RBOIds[0]);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 1280, 720); // use a single renderbuffer object for both a depth AND stencil buffer.
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 1920, 1080); // use a single renderbuffer object for both a depth AND stencil buffer.
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBOIds[0]); // now actually attach it
 
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         std::cout << "ERROR: Framebuffer is not complete!\n";
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    // Load gates
+
+    glGenTextures(1, &TEXIds[0]);
+    glBindTexture(GL_TEXTURE_2D, TEXIds[0]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    int IMwidth, IMheight, IMnrChannels;
+    unsigned char* data = stbi_load("Resources/andgate.png", &IMwidth, &IMheight, &IMnrChannels, 0);
+    if (data)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, IMwidth, IMheight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+    {
+        std::cout << "Failed to load tex" << std::endl;
+    }
+    stbi_image_free(data);
 
     // Our state
     bool show_main_window = true;
@@ -177,6 +209,7 @@ int main(int, char**)
         // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or clear/overwrite your copy of the keyboard data.
         // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
         glfwPollEvents();
+        KeyboardFunction(window);
 
         // Start the Dear ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
@@ -188,48 +221,17 @@ int main(int, char**)
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
 
-        // 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
-        //{
-        //    static float f = 0.0f;
-        //    static int counter = 0;
-
-        //    ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
-
-        //    ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-        //    ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-        //    ImGui::Checkbox("Another Window", &show_another_window);
-
-        //    ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-        //    ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-        //    if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-        //        counter++;
-        //    ImGui::SameLine();
-        //    ImGui::Text("counter = %d", counter);
-
-        //    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        //    ImGui::End();
-        //}
-
-        // 3. Show another simple window.
-        //if (show_another_window)
-        //{
-        //    ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-        //    ImGui::Text("Hello from another window!");
-        //    if (ImGui::Button("Close Me"))
-        //        show_another_window = false;
-        //    ImGui::End();
-        //}
-
-
+        // Begin rendering to framebuffer
         glBindFramebuffer(GL_FRAMEBUFFER, FBOIds[0]);
         //glViewport(0, 0, main_app.getRendSize().x, main_app.getRendSize().y);
 
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        float timeVal = glfwGetTime();
+        float color = sin(timeVal);
         shaders.use();
-        shaders.setVec4("uColor", glm::vec4(1.0f,1.0f,0.0f,1.0f));
+        shaders.setVec4("uColor", glm::vec4(1.0f,color,color,1.0f));
         glBindVertexArray(VAOIds[0]);
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
@@ -276,4 +278,44 @@ int main(int, char**)
     glfwTerminate();
 
     return 0;
+}
+
+GLuint LoadTex(char const* path)
+{
+    GLuint textureID;
+    glGenTextures(1, &textureID);
+
+    int width, height, nrComponents;
+    unsigned char* data = stbi_load(path, &width, &height, &nrComponents, 0);
+
+    //std::cout << width << " " << height << " " << nrComponents << std::endl;
+    //std::cout << data << std::endl;
+    if (data)
+    {
+        GLenum format = GL_RGBA;
+        if (nrComponents == 1)
+            format = GL_RED;
+        else if (nrComponents == 3)
+            format = GL_RGB;
+        else if (nrComponents == 4)
+            format = GL_RGBA;
+
+        glBindTexture(GL_TEXTURE_2D, textureID);
+        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        stbi_image_free(data);
+    }
+    else
+    {
+        std::cout << "Texture failed to load at path: " << path << std::endl;
+        stbi_image_free(data);
+    }
+
+    return textureID;
 }
