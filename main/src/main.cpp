@@ -51,8 +51,13 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void KeyboardFunction(GLFWwindow* window)
 {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
+    if ((glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS))
+    {
+        if ((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS))
+        {
+            glfwSetWindowShouldClose(window, true);
+        }
+    }
 }
 
 GLuint LoadTex(const char* path)
