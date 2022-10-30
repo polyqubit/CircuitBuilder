@@ -108,6 +108,7 @@ int main(int, char**)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
+    //glfwGetPrimaryMonitor()
     GLFWwindow* window = glfwCreateWindow(1920, 1080, "Dear ImGui GLFW+OpenGL3 example", glfwGetPrimaryMonitor(), NULL);
     if (window == NULL)
         return 1;
@@ -183,10 +184,13 @@ int main(int, char**)
          0.5f,  0.5f, 0.0f,   1.0f, 1.0f,   // top right
          0.5f, -0.5f, 0.0f,   1.0f, 0.0f,   // bottom right
         -0.5f, -0.5f, 0.0f,   0.0f, 0.0f,   // bottom left
-        -0.5f,  0.5f, 0.0f,   0.0f, 1.0f    // top left 
+
+        -0.5f,  0.5f, 0.0f,   0.0f, 1.0f,   // top left 
+         0.5f,  0.5f, 0.0f,   1.0f, 1.0f,   // top right
+        -0.5f, -0.5f, 0.0f,   0.0f, 0.0f,   // bottom left
     };
 
-    glGenBuffers(3, &VBOIds[0]);
+    glGenBuffers(2, &VBOIds[0]);
     glGenVertexArrays(2, &VAOIds[0]);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBOIds[0]);
@@ -222,7 +226,7 @@ int main(int, char**)
 
     // Load gates
     
-    glActiveTexture(GL_TEXTURE0);
+    //glActiveTexture(GL_TEXTURE0);
     TEXIds[0] = LoadTex("Resources/andgate.png");
 
     // Our state
@@ -256,6 +260,8 @@ int main(int, char**)
 
         // Begin rendering to framebuffer
         glBindFramebuffer(GL_FRAMEBUFFER, FBOIds[0]);
+        glEnable(GL_DEPTH_TEST);
+
         int display_w, display_h;
         glfwGetFramebufferSize(window, &display_w, &display_h);
         glViewport(0, 0, display_w, display_h);
@@ -275,9 +281,11 @@ int main(int, char**)
         shaders.setVec4("uColor", glm::vec4(1.0f,color,color,1.0f));
         glBindTexture(GL_TEXTURE_2D, TEXIds[0]);
         glBindVertexArray(VAOIds[0]);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glBindVertexArray(0);
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glDisable(GL_DEPTH_TEST);
         
         // My code
         if (show_main_window)
