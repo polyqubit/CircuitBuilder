@@ -234,8 +234,8 @@ int main(int, char**)
 
     // Load gates
     
-    //glActiveTexture(GL_TEXTURE0);
     TEXIds[0] = LoadTex("Resources/andgate.png");
+    TEXIds[1] = LoadTex("Resources/orgate.png");
 
     // Our state
     bool show_main_window = true;
@@ -289,6 +289,8 @@ int main(int, char**)
         shaders.setVec4("uColor", glm::vec4(1.0f,color,color,1.0f));
         glBindTexture(GL_TEXTURE_2D, TEXIds[0]);
         glBindVertexArray(VAOIds[0]);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glBindTexture(GL_TEXTURE_2D, TEXIds[1]);
         glDrawArrays(GL_TRIANGLES, 0, 6);
         glBindVertexArray(0);
 
